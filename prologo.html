@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reino de Eldoria - Prólogo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant', serif;
+            line-height: 1.6;
+            color: #f5e6c8;
+            background: #1a1200 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a1200"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%235e4200" stroke-width="0.5" opacity="0.3"/></svg>');
+            background-size: 100px 100px;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header y navegación */
+        header {
+            background: linear-gradient(to bottom, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 0.8));
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #d4af37;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo::before {
+            content: "⚔️";
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: #f5e6c8;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #d4af37;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #d4af37;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        /* Contenido del prólogo */
+        .prologue-content {
+            flex: 1;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .prologue-container {
+            max-width: 900px;
+            background: rgba(30, 20, 0, 0.8);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 2px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prologue-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M20,20 L180,20 L180,180 L20,180 Z" fill="none" stroke="%23d4af37" stroke-width="2" opacity="0.1"/></svg>') repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .prologue-title {
+            font-size: 3rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.5);
+            }
+            100% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.6);
+            }
+        }
+        
+        .prologue-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #f5e6c8;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            text-align: justify;
+        }
+        
+        .prologue-text:first-letter {
+            font-size: 3rem;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            float: left;
+            line-height: 1;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(to bottom, #8b4513, #5d3300);
+            color: #f5e6c8;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(to bottom, #9a5519, #6d3e00);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        .nav-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 0.8));
+            padding: 20px 0;
+            text-align: center;
+            border-top: 2px solid #d4af37;
+            margin-top: auto;
+        }
+        
+        .footer-text {
+            color: #f5e6c8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .prologue-title {
+                font-size: 2.2rem;
+            }
+            
+            .prologue-text {
+                font-size: 1.1rem;
+            }
+            
+            .prologue-container {
+                padding: 30px 20px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header y navegación -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Reino de Eldoria</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="prologo.html">Prólogo</a></li>
+                    <li><a href="personajes.html">Personajes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido del prólogo -->
+    <main class="prologue-content">
+        <div class="prologue-container">
+            <h2 class="prologue-title">El Amanecer de la Guerra</h2>
+            <p class="prologue-text">Hace más de mil años, el Reino de Eldoria era un lugar de paz y prosperidad, donde elfos, enanos y humanos convivían en armonía bajo la protección de los antiguos dioses. La magia fluía libremente por los bosques y montañas, y las criaturas fantásticas habitaban en cada rincón del mundo.</p>
+            <p class="prologue-text">Pero todo cambió cuando el malvado hechicero Morlock descubrió los secretos de la magia prohibida. Corrompido por el poder oscuro, reunió a un ejército de orcos y magos oscuros, desatando una guerra que amenazó con sumir a Eldoria en una eterna oscuridad.</p>
+            <p class="prologue-text">En los momentos más oscuros, surgieron héroes de entre todas las razas. Elfos con su dominio del arco y la magia natural, enanos con su fuerza inquebrantable y maestría en la forja, y humanos con su valentía y capacidad de adaptación. Juntos formaron la Alianza de la Luz, la última esperanza para salvar a Eldoria.</p>
+            <p class="prologue-text">Ahora, la batalla final se acerca. El destino del reino pende de un hilo, y solo los más valientes podrán inclinar la balanza hacia la salvación o la perdición eterna.</p>
+            
+            <div class="navigation-buttons">
+                <a href="index.html" class="nav-button">Volver al Inicio</a>
+                <a href="personajes.html" class="nav-button">Conocer a los Personajes</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">© 2023 Reino de Eldoria - Una aventura de fantasía épica</p>
+        </div>
+    </footer>
+</body>
+</html>

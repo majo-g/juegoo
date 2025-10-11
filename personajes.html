@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reino de Eldoria - Personajes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant', serif;
+            line-height: 1.6;
+            color: #f5e6c8;
+            background: #1a1200 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a1200"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%235e4200" stroke-width="0.5" opacity="0.3"/></svg>');
+            background-size: 100px 100px;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header y navegación */
+        header {
+            background: linear-gradient(to bottom, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 0.8));
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #d4af37;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo::before {
+            content: "⚔️";
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: #f5e6c8;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #d4af37;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #d4af37;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        /* Contenido de personajes */
+        .characters-content {
+            flex: 1;
+            padding: 60px 20px;
+        }
+        
+        .characters-title {
+            font-size: 3rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.5);
+            }
+            100% {
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.6);
+            }
+        }
+        
+        /* Selector de facciones */
+        .faction-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            background: rgba(30, 20, 0, 0.7);
+            border-radius: 10px;
+            padding: 5px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #d4af37;
+        }
+        
+        .faction-option {
+            display: none;
+        }
+        
+        .faction-label {
+            padding: 12px 30px;
+            background: transparent;
+            border: none;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.4s ease;
+            color: #f5e6c8;
+            flex: 1;
+            text-align: center;
+        }
+        
+        #heroes-toggle:checked ~ .faction-selector .faction-label[for="heroes-toggle"],
+        #villains-toggle:checked ~ .faction-selector .faction-label[for="villains-toggle"] {
+            background: linear-gradient(to bottom, #8b4513, #5d3300);
+            color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        /* Sistema de carruseles con CSS puro */
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 2px solid #d4af37;
+        }
+        
+        /* Carrusel de Héroes */
+        #heroes-toggle:checked ~ .heroes-section {
+            display: block;
+        }
+        
+        #villains-toggle:checked ~ .villains-section {
+            display: block;
+        }
+        
+        .heroes-section,
+        .villains-section {
+            display: none;
+        }
+        
+        .carousel {
+            display: flex;
+            width: 600%; /* 6 slides = 600% */
+            transition: transform 0.6s ease-in-out;
+        }
+        
+        /* Slides de Héroes */
+        #hero-slide1:checked ~ .heroes-section .carousel {
+            transform: translateX(0%);
+        }
+        
+        #hero-slide2:checked ~ .heroes-section .carousel {
+            transform: translateX(-16.666%);
+        }
+        
+        #hero-slide3:checked ~ .heroes-section .carousel {
+            transform: translateX(-33.333%);
+        }
+        
+        #hero-slide4:checked ~ .heroes-section .carousel {
+            transform: translateX(-50%);
+        }
+        
+        #hero-slide5:checked ~ .heroes-section .carousel {
+            transform: translateX(-66.666%);
+        }
+        
+        #hero-slide6:checked ~ .heroes-section .carousel {
+            transform: translateX(-83.333%);
+        }
+        
+        /* Slides de Villanos */
+        #villain-slide1:checked ~ .villains-section .carousel {
+            transform: translateX(0%);
+        }
+        
+        #villain-slide2:checked ~ .villains-section .carousel {
+            transform: translateX(-16.666%);
+        }
+        
+        #villain-slide3:checked ~ .villains-section .carousel {
+            transform: translateX(-33.333%);
+        }
+        
+        #villain-slide4:checked ~ .villains-section .carousel {
+            transform: translateX(-50%);
+        }
+        
+        #villain-slide5:checked ~ .villains-section .carousel {
+            transform: translateX(-66.666%);
+        }
+        
+        #villain-slide6:checked ~ .villains-section .carousel {
+            transform: translateX(-83.333%);
+        }
+        
+        .carousel-slide {
+            width: 16.666%; /* Cada slide ocupa 1/6 del contenedor */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Estilos para héroes */
+        .hero-slide {
+            background: linear-gradient(135deg, #1a3a5f, #2a5a8c);
+            animation: heroGlow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes heroGlow {
+            0% {
+                box-shadow: 0 0 20px rgba(42, 90, 140, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(42, 90, 140, 0.8), 0 0 40px rgba(42, 90, 140, 0.6);
+            }
+        }
+        
+        .hero-slide .character-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 4px solid #d4af37;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            background: rgba(42, 90, 140, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-slide .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .placeholder-text {
+            color: #d4af37;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .hero-slide .character-name {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #d4af37;
+            text-align: center;
+        }
+        
+        .hero-slide .character-race {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .hero-slide .character-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .hero-slide .stat {
+            text-align: center;
+            background: rgba(212, 175, 55, 0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            min-width: 100px;
+        }
+        
+        .hero-slide .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d4af37;
+        }
+        
+        .hero-slide .character-description {
+            text-align: center;
+            max-width: 700px;
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+        
+        /* Estilos para villanos */
+        .villain-slide {
+            background: linear-gradient(135deg, #5a1a1a, #8c2a2a);
+            animation: villainGlow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes villainGlow {
+            0% {
+                box-shadow: 0 0 20px rgba(140, 42, 42, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(140, 42, 42, 0.8), 0 0 40px rgba(140, 42, 42, 0.6);
+            }
+        }
+        
+        .villain-slide .character-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 4px solid #8c2a2a;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+            background: rgba(90, 26, 26, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .villain-slide .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .villain-slide .character-name {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+            text-align: center;
+        }
+        
+        .villain-slide .character-race {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .villain-slide .character-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .villain-slide .stat {
+            text-align: center;
+            background: rgba(255, 107, 107, 0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ff6b6b;
+            min-width: 100px;
+        }
+        
+        .villain-slide .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        .villain-slide .character-description {
+            text-align: center;
+            max-width: 700px;
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        /* Controles del carrusel */
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        
+        .carousel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, #8b4513, #5d3300);
+            color: #f5e6c8;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #d4af37;
+        }
+        
+        .carousel-btn:hover {
+            background: linear-gradient(to bottom, #9a5519, #6d3e00);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+        }
+        
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .indicator-label {
+            display: block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #8b4513;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #d4af37;
+        }
+        
+        /* Indicadores activos para héroes */
+        #hero-slide1:checked ~ .heroes-section .indicator-label[for="hero-slide1"],
+        #hero-slide2:checked ~ .heroes-section .indicator-label[for="hero-slide2"],
+        #hero-slide3:checked ~ .heroes-section .indicator-label[for="hero-slide3"],
+        #hero-slide4:checked ~ .heroes-section .indicator-label[for="hero-slide4"],
+        #hero-slide5:checked ~ .heroes-section .indicator-label[for="hero-slide5"],
+        #hero-slide6:checked ~ .heroes-section .indicator-label[for="hero-slide6"],
+        #villain-slide1:checked ~ .villains-section .indicator-label[for="villain-slide1"],
+        #villain-slide2:checked ~ .villains-section .indicator-label[for="villain-slide2"],
+        #villain-slide3:checked ~ .villains-section .indicator-label[for="villain-slide3"],
+        #villain-slide4:checked ~ .villains-section .indicator-label[for="villain-slide4"],
+        #villain-slide5:checked ~ .villains-section .indicator-label[for="villain-slide5"],
+        #villain-slide6:checked ~ .villains-section .indicator-label[for="villain-slide6"] {
+            background-color: #d4af37;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(to bottom, #8b4513, #5d3300);
+            color: #f5e6c8;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(to bottom, #9a5519, #6d3e00);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        .nav-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Ocultar checkboxes */
+        input[type="radio"] {
+            display: none;
+        }
+        
+        /* Establecer facción por defecto */
+        #heroes-toggle:checked ~ .heroes-section,
+        #villains-toggle:not(:checked) ~ .heroes-section {
+            display: block;
+        }
+        
+        #villains-toggle:checked ~ .villains-section {
+            display: block;
+        }
+        
+        #villains-toggle:checked ~ .heroes-section {
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .characters-title {
+                font-size: 2.2rem;
+            }
+            
+            .carousel-slide {
+                padding: 20px;
+            }
+            
+            .hero-slide .character-image,
+            .villain-slide .character-image {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .hero-slide .character-name,
+            .villain-slide .character-name {
+                font-size: 1.8rem;
+            }
+            
+            .hero-slide .character-stats,
+            .villain-slide .character-stats {
+                gap: 15px;
+            }
+            
+            .hero-slide .stat,
+            .villain-slide .stat {
+                min-width: 80px;
+                padding: 8px 10px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header y navegación -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Reino de Eldoria</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="prologo.html">Prólogo</a></li>
+                    <li><a href="personajes.html">Personajes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido de personajes -->
+    <main class="characters-content">
+        <div class="container">
+            <h2 class="characters-title">Personajes de Eldoria</h2>
+            
+            <!-- Sistema de facciones con CSS puro -->
+            <input type="radio" name="faction" id="heroes-toggle" checked>
+            <input type="radio" name="faction" id="villains-toggle">
+            
+            <div class="faction-selector">
+                <label for="heroes-toggle" class="faction-label">Héroes</label>
+                <label for="villains-toggle" class="faction-label">Antagonistas</label>
+            </div>
+            
+            <!-- Sección de Héroes -->
+            <input type="radio" name="hero-carousel" id="hero-slide1" checked>
+            <input type="radio" name="hero-carousel" id="hero-slide2">
+            <input type="radio" name="hero-carousel" id="hero-slide3">
+            <input type="radio" name="hero-carousel" id="hero-slide4">
+            <input type="radio" name="hero-carousel" id="hero-slide5">
+            <input type="radio" name="hero-carousel" id="hero-slide6">
+            
+            <div class="heroes-section">
+                <div class="carousel-container">
+                    <div class="carousel">
+                        <!-- Héroe 1 - AELAR LUNARGENTA -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: aelar-lunargenta.jpg -->
+                                <div class="placeholder-text">Imagen de Aelar Lunargenta</div>
+                            </div>
+                            <h3 class="character-name">Aelar Lunargenta</h3>
+                            <p class="character-race">Elfo del Bosque</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">9</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Aelar es un arquero élfico sin igual, capaz de disparar flechas con una precisión milimétrica. Como guardián del Bosque Ancestral, ha jurado proteger a su pueblo de las fuerzas oscuras que amenazan Eldoria. Su linaje se remonta a los primeros elfos que habitaron estos bosques.</p>
+                        </div>
+                        
+                        <!-- Héroe 2 - THRAIN MARTILLOFUERTE -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: thrain-martillofuerte.jpg -->
+                                <div class="placeholder-text">Imagen de Thrain Martillofuerte</div>
+                            </div>
+                            <h3 class="character-name">Thrain Martillofuerte</h3>
+                            <p class="character-race">Enano de las Montañas</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Thrain es el mejor herrero de las Montañas de Hierro. Con su hacha de batalla, puede partir rocas y armaduras con igual facilidad. Aunque de carácter rudo, su lealtad hacia sus compañeros es inquebrantable. Forjó el legendario Martillo de los Ancestros que solo los dignos pueden levantar.</p>
+                        </div>
+                        
+                        <!-- Héroe 3 - ISABELLA DE VALERIUS -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: isabella-valerius.jpg -->
+                                <div class="placeholder-text">Imagen de Isabella de Valerius</div>
+                            </div>
+                            <h3 class="character-name">Isabella de Valerius</h3>
+                            <p class="character-race">Humana Noble</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Isabella es la heredera del reino humano de Valerius. Entrenada tanto en el arte de la espada como en la magia de luz, lidera a las fuerzas de la Alianza con sabiduría y valentía. Su padre, el rey Alistair, fue asesinado por las fuerzas de Morlock, lo que la impulsó a unirse a la lucha.</p>
+                        </div>
+                        
+                        <!-- Héroe 4 - LYRA BRISAVELOZ -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: lyra-brisaveloz.jpg -->
+                                <div class="placeholder-text">Imagen de Lyra Brisaveloz</div>
+                            </div>
+                            <h3 class="character-name">Lyra Brisaveloz</h3>
+                            <p class="character-race">Elfa del Viento</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">9</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Lyra es una elfa del viento capaz de moverse con la rapidez de una brisa y controlar las corrientes de aire. Sus flechas nunca fallan su objetivo, guiadas por magia ancestral. Fue exiliada de su clan por oponerse a su líder, quien quería permanecer neutral en la guerra contra Morlock.</p>
+                        </div>
+                        
+                        <!-- Héroe 5 - BORIN PIEDRASÓLIDA -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: borin-piedrasolida.jpg -->
+                                <div class="placeholder-text">Imagen de Borin Piedrasólida</div>
+                            </div>
+                            <h3 class="character-name">Borin Piedrasólida</h3>
+                            <p class="character-race">Enano Guerrero</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Borin es el capitán de la Guardia de las Montañas. Con su escudo ancestral, ha protegido los pasos montañosos de incontables invasiones. Perdió a su hermano menor en la primera batalla contra Morlock, jurando venganza contra las fuerzas oscuras.</p>
+                        </div>
+                        
+                        <!-- Héroe 6 - ELDRIN SABIO -->
+                        <div class="carousel-slide hero-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: eldrin-sabio.jpg -->
+                                <div class="placeholder-text">Imagen de Eldrin Sabio</div>
+                            </div>
+                            <h3 class="character-name">Eldrin Sabio</h3>
+                            <p class="character-race">Mago Humano</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">5</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Eldrin es el archimago del Círculo de Hechiceros, guardián de conocimientos ancestrales. Fue mentor del joven Morlock antes de que este cayera en la oscuridad. Ahora busca redimirse entrenando a nuevos magos para la Alianza de la Luz.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <label for="hero-slide1" class="carousel-btn">&#10094;</label>
+                        <label for="hero-slide2" class="carousel-btn">&#10095;</label>
+                    </div>
+                    
+                    <div class="carousel-indicators">
+                        <label for="hero-slide1" class="indicator-label"></label>
+                        <label for="hero-slide2" class="indicator-label"></label>
+                        <label for="hero-slide3" class="indicator-label"></label>
+                        <label for="hero-slide4" class="indicator-label"></label>
+                        <label for="hero-slide5" class="indicator-label"></label>
+                        <label for="hero-slide6" class="indicator-label"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Villanos -->
+            <input type="radio" name="villain-carousel" id="villain-slide1" checked>
+            <input type="radio" name="villain-carousel" id="villain-slide2">
+            <input type="radio" name="villain-carousel" id="villain-slide3">
+            <input type="radio" name="villain-carousel" id="villain-slide4">
+            <input type="radio" name="villain-carousel" id="villain-slide5">
+            <input type="radio" name="villain-carousel" id="villain-slide6">
+            
+            <div class="villains-section">
+                <div class="carousel-container">
+                    <div class="carousel">
+                        <!-- Villano 1 - GROMMASH EL DESPIADADO -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: grommash-despiadado.jpg -->
+                                <div class="placeholder-text">Imagen de Grommash el Despiadado</div>
+                            </div>
+                            <h3 class="character-name">Grommash el Despiadado</h3>
+                            <p class="character-race">Jefe Orco</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">4</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Grommash es el líder de las hordas orcas que siguen a Morlock. Con su hacha de doble filo, ha masacrado a miles de soldados de la Alianza. Su sed de sangre y destrucción no conoce límites. Se unió a Morlock después de que este le prometiera tierras fértiles para su pueblo.</p>
+                        </div>
+                        
+                        <!-- Villano 2 - MORGANA LA OSCURA -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: morgana-oscura.jpg -->
+                                <div class="placeholder-text">Imagen de Morgana la Oscura</div>
+                            </div>
+                            <h3 class="character-name">Morgana la Oscura</h3>
+                            <p class="character-race">Maga Oscura</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">5</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Morgana fue una vez una maga de la luz, pero la corrupción de Morlock la transformó en su más poderosa seguidora. Ahora domina las artes oscuras y puede invocar criaturas de las sombras para hacer su voluntad. Su mayor deseo es ver arder el Gran Árbol de los Elfos.</p>
+                        </div>
+                        
+                        <!-- Villano 3 - MORLOCK EL CORRUPTOR -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: morlock-corruptor.jpg -->
+                                <div class="placeholder-text">Imagen de Morlock el Corruptor</div>
+                            </div>
+                            <h3 class="character-name">Morlock el Corruptor</h3>
+                            <p class="character-race">Hechicero Supremo</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">10</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Morlock es el arquitecto de la oscuridad que amenaza a Eldoria. Una vez un respetado mago, su sed de poder lo llevó a descubrir secretos prohibidos que corrompieron su alma. Ahora busca dominar todo el reino con su magia oscura. Su mayor fortaleza se alza en las Tierras Yermas.</p>
+                        </div>
+                        
+                        <!-- Villano 4 - ZARTHUS EL TRAICIONERO -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: zarthus-traicionero.jpg -->
+                                <div class="placeholder-text">Imagen de Zarthus el Traicionero</div>
+                            </div>
+                            <h3 class="character-name">Zarthus el Traicionero</h3>
+                            <p class="character-race">Hechicero Renegado</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">9</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Zarthus fue el primer aprendiz de Eldrin en traicionar a la Alianza. Especialista en magia de ilusión y engaño, ha sembrado la discordia en numerosos reinos. Se unió a Morlock prometiendo entregarle los secretos de la Torre de los Magos a cambio de poder.</p>
+                        </div>
+                        
+                        <!-- Villano 5 - KAZROG EL INQUEBRANTABLE -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: kazrog-inquebrantable.jpg -->
+                                <div class="placeholder-text">Imagen de Kazrog el Inquebrantable</div>
+                            </div>
+                            <h3 class="character-name">Kazrog el Inquebrantable</h3>
+                            <p class="character-race">Guerrero No Muerto</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">9</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">7</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Kazrog era un poderoso guerrero humano que cayó en batalla hace siglos. Morlock lo resucitó como un no muerto, dotándolo de fuerza sobrenatural y resistencia al dolor. Ahora comanda la legión de esqueletos que aterroriza los campos de batalla.</p>
+                        </div>
+                        
+                        <!-- Villano 6 - LILITH LA ARAÑA -->
+                        <div class="carousel-slide villain-slide">
+                            <div class="character-image">
+                                <!-- REEMPLAZAR CON IMAGEN: lilith-arana.jpg -->
+                                <div class="placeholder-text">Imagen de Lilith la Araña</div>
+                            </div>
+                            <h3 class="character-name">Lilith la Araña</h3>
+                            <p class="character-race">Hechicera Arácnida</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <div class="stat-value">6</div>
+                                    <div>Fuerza</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8</div>
+                                    <div>Magia</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">9</div>
+                                    <div>Agilidad</div>
+                                </div>
+                            </div>
+                            <p class="character-description">Lilith es una hechicera que hizo un pacto con las arañas gigantes de las Cavernas Sombrías. Puede controlar enjambres de arañas y tejer hechizos de parálisis. Su red de espías se extiende por todo Eldoria, haciendo de ella la maestra de la información de Morlock.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <label for="villain-slide1" class="carousel-btn">&#10094;</label>
+                        <label for="villain-slide2" class="carousel-btn">&#10095;</label>
+                    </div>
+                    
+                    <div class="carousel-indicators">
+                        <label for="villain-slide1" class="indicator-label"></label>
+                        <label for="villain-slide2" class="indicator-label"></label>
+                        <label for="villain-slide3" class="indicator-label"></label>
+                        <label for="villain-slide4" class="indicator-label"></label>
+                        <label for="villain-slide5" class="indicator-label"></label>
+                        <label for="villain-slide6" class="indicator-label"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <a href="prologo.html" class="nav-button">Volver al Prólogo</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
